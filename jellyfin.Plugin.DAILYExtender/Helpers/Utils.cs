@@ -17,7 +17,7 @@ namespace jellyfin.Plugin.DAILYExtender.Helpers
 {
     public class Utils
     {
-        public static bool IsFresh(MediaBrowser.Model.IO.FileSystemMetadata fileInfo)
+        public static bool IsFresh(FileSystemMetadata fileInfo)
         {
             if (fileInfo.Exists && DateTime.UtcNow.Subtract(fileInfo.LastWriteTimeUtc).Days <= 10)
             {
@@ -50,22 +50,6 @@ namespace jellyfin.Plugin.DAILYExtender.Helpers
         }
 
         /// <summary>
-        /// Creates a person object of type director for the provided name.
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="channel_id"></param>
-        /// <returns></returns>
-        public static PersonInfo CreatePerson(string name, string channel_id)
-        {
-            return new PersonInfo
-            {
-                Name = name,
-                Type = PersonType.Director,
-                ProviderIds = new Dictionary<string, string> { { Constants.PLUGIN_NAME, channel_id } },
-            };
-        }
-
-        /// <summary>
         /// Returns path to where metadata json file should be.
         /// </summary>
         /// <param name="appPaths"></param>
@@ -93,69 +77,6 @@ namespace jellyfin.Plugin.DAILYExtender.Helpers
             });
             data.file_path = path;
             return data;
-        }
-
-        /// <summary>
-        /// Provides a Movie Metadata Result from a json object.
-        /// </summary>
-        /// <param name="json"></param>
-        /// <returns></returns>
-        public static MetadataResult<Movie> YTDLJsonToMovie(YTDLData json)
-        {
-            var item = new Movie();
-            var result = new MetadataResult<Movie>
-            {
-                HasMetadata = true,
-                Item = item
-            };
-            result.Item.Name = json.title;
-            result.Item.Overview = json.description;
-            var date = new DateTime(1970, 1, 1);
-            try
-            {
-                date = DateTime.ParseExact(json.upload_date, "yyyyMMdd", null);
-            }
-            catch
-            {
-
-            }
-            result.Item.ProductionYear = date.Year;
-            result.Item.PremiereDate = date;
-            result.AddPerson(Utils.CreatePerson(json.uploader, json.channel_id));
-            result.Item.ProviderIds.Add(Constants.PLUGIN_NAME, json.id);
-
-            return result;
-        }
-
-        /// <summary>
-        /// Provides a MusicVideo Metadata Result from a json object.
-        /// </summary>
-        /// <param name="json"></param>
-        /// <returns></returns>
-        public static MetadataResult<MusicVideo> YTDLJsonToMusicVideo(YTDLData json)
-        {
-            var item = new MusicVideo();
-            var result = new MetadataResult<MusicVideo>
-            {
-                HasMetadata = true,
-                Item = item
-            };
-            result.Item.Name = String.IsNullOrEmpty(json.track) ? json.title : json.track;
-            result.Item.Artists = new List<string> { json.artist };
-            result.Item.Album = json.album;
-            result.Item.Overview = json.description;
-            var date = new DateTime(1970, 1, 1);
-            try
-            {
-                date = DateTime.ParseExact(json.upload_date, "yyyyMMdd", null);
-            }
-            catch { }
-            result.Item.ProductionYear = date.Year;
-            result.Item.PremiereDate = date;
-            result.AddPerson(Utils.CreatePerson(json.uploader, json.channel_id));
-            result.Item.ProviderIds.Add(Constants.PLUGIN_NAME, json.id);
-
-            return result;
         }
 
         /// <summary>
@@ -202,6 +123,7 @@ namespace jellyfin.Plugin.DAILYExtender.Helpers
 
             return result;
         }
+
         /// <summary>
         /// Provides a MusicVideo Metadata Result from a json object.
         /// </summary>
