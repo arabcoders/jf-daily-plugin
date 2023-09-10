@@ -1,20 +1,20 @@
 using MediaBrowser.Model.Plugins;
 using System;
 
-public enum IDTypes
+public enum SomeOptions
 {
-    YTDLP = 1,
+    CustomDateParser = 1,
 }
 
 namespace jellyfin.Plugin.DAILYExtender.Configuration
 {
     public class PluginConfiguration : BasePluginConfiguration
     {
-        public IDTypes IDType { get; set; }
+        public SomeOptions IDType { get; set; }
         public PluginConfiguration()
         {
             // defaults
-            IDType = IDTypes.YTDLP;
+            IDType = SomeOptions.CustomDateParser;
         }
     }
 }
