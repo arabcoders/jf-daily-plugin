@@ -6,11 +6,11 @@ using Moq;
 using System.Collections.Generic;
 using System;
 using System.IO;
-using Jellyfin.Plugin.YTINFOReader.Helpers;
+using jellyfin.Plugin.DAILYExtender.Helpers;
 using System.Text.RegularExpressions;
 using System.Text.Json;
 
-namespace Jellyfin.Plugin.YTINFOReader.Tests
+namespace jellyfin.Plugin.DAILYExtender.Tests
 {
     public class UtilsTest
     {

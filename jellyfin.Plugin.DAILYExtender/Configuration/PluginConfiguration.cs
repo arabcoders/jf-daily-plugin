@@ -6,7 +6,7 @@ public enum IDTypes
     YTDLP = 1,
 }
 
-namespace Jellyfin.Plugin.YTINFOReader.Configuration
+namespace jellyfin.Plugin.DAILYExtender.Configuration
 {
     public class PluginConfiguration : BasePluginConfiguration
     {

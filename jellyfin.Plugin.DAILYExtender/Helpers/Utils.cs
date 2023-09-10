@@ -13,7 +13,7 @@ using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using System.Threading;
 
-namespace Jellyfin.Plugin.YTINFOReader.Helpers
+namespace jellyfin.Plugin.DAILYExtender.Helpers
 {
     public class Utils
     {

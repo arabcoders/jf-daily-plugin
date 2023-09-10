@@ -2,9 +2,9 @@
 using MediaBrowser.Model.IO;
 using Microsoft.Extensions.Logging;
 using MediaBrowser.Controller.Entities.TV;
-using Jellyfin.Plugin.YTINFOReader.Helpers;
+using jellyfin.Plugin.DAILYExtender.Helpers;
 
-namespace Jellyfin.Plugin.YTINFOReader.Provider
+namespace jellyfin.Plugin.DAILYExtender.Provider
 {
     public class LocalEpisodeProvider : AbstractLocalProvider<LocalEpisodeProvider, Episode>
     {

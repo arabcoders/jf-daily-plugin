@@ -2,9 +2,9 @@
 using MediaBrowser.Controller.Providers;
 using MediaBrowser.Model.IO;
 using Microsoft.Extensions.Logging;
-using Jellyfin.Plugin.YTINFOReader.Helpers;
+using jellyfin.Plugin.DAILYExtender.Helpers;
 
-namespace Jellyfin.Plugin.YTINFOReader.Provider
+namespace jellyfin.Plugin.DAILYExtender.Provider
 {
     public class LocalMusicProvider : AbstractLocalProvider<LocalMusicProvider, MusicVideo>
     {

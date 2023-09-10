@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Jellyfin.Plugin.YTINFOReader.Helpers
+namespace jellyfin.Plugin.DAILYExtender.Helpers
 {
     /// <summary>
     /// Object should match how YTDL json looks.

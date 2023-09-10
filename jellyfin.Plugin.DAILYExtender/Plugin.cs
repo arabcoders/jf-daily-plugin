@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO.Abstractions;
-using Jellyfin.Plugin.YTINFOReader.Configuration;
-using Jellyfin.Plugin.YTINFOReader.Helpers;
+using jellyfin.Plugin.DAILYExtender.Configuration;
+using jellyfin.Plugin.DAILYExtender.Helpers;
 using MediaBrowser.Common.Configuration;
 using MediaBrowser.Common.Plugins;
 using MediaBrowser.Model.Plugins;
 using MediaBrowser.Model.Serialization;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Jellyfin.Plugin.YTINFOReader
+namespace jellyfin.Plugin.DAILYExtender
 {
     public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages
     {

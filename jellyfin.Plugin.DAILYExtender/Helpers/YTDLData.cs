@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace Jellyfin.Plugin.YTINFOReader.Helpers
+namespace jellyfin.Plugin.DAILYExtender.Helpers
 {
     /// <summary>
     /// Object that represent how data from yt-dlp should look like.

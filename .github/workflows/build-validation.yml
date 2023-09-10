@@ -37,17 +37,17 @@ jobs:
         run: dotnet restore
 
       - name: Build
-        run: dotnet build Jellyfin.Plugin.YTINFOReader --configuration Release --no-restore
+        run: dotnet build jellyfin.Plugin.DAILYExtender --configuration Release --no-restore
 
       - name: Publish
-        run: dotnet publish Jellyfin.Plugin.YTINFOReader --configuration Release --no-restore --output bin
+        run: dotnet publish jellyfin.Plugin.DAILYExtender --configuration Release --no-restore --output bin
 
       - name: Package
         id: create_package
         shell: bash
         run: |
           tag=$(git describe --tags --always)
-          release_name="YTINFOReader-${tag}"
+          release_name="DAILYExtender-${tag}"
 
           # Pack files
           7z a -tzip "${release_name}.zip" "./bin/*.dll"

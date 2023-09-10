@@ -5,9 +5,9 @@ using Microsoft.Extensions.Logging;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using Jellyfin.Plugin.YTINFOReader.Helpers;
+using jellyfin.Plugin.DAILYExtender.Helpers;
 
-namespace Jellyfin.Plugin.YTINFOReader.Provider
+namespace jellyfin.Plugin.DAILYExtender.Provider
 {
     public abstract class AbstractLocalProvider<B, T> : ILocalMetadataProvider<T>, IHasItemChangeMonitor where T : BaseItem
     {
@@ -37,7 +37,7 @@ namespace Jellyfin.Plugin.YTINFOReader.Provider
         }
 
         /// <summary>
-        /// Returns bolean if item has changed since last recorded.
+        /// Returns boolean if item has changed since last recorded.
         /// </summary>
         /// <param name="item"></param>
         /// <param name="directoryService"></param>

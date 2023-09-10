@@ -8,9 +8,9 @@ using System.Text.RegularExpressions;
 using Microsoft.Extensions.FileSystemGlobbing;
 using System;
 using MediaBrowser.Controller.Entities.TV;
-using Jellyfin.Plugin.YTINFOReader.Helpers;
+using jellyfin.Plugin.DAILYExtender.Helpers;
 
-namespace Jellyfin.Plugin.YTINFOReader.Provider
+namespace jellyfin.Plugin.DAILYExtender.Provider
 {
     public class LocalImageProvider : ILocalImageProvider, IHasOrder
     {
