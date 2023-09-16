@@ -2,7 +2,6 @@ using MediaBrowser.Controller.Entities;
 using MediaBrowser.Controller.Providers;
 using MediaBrowser.Model.IO;
 using Microsoft.Extensions.Logging;
-using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Jellyfin.Plugin.DAILYExtender.Helpers;
@@ -37,16 +36,16 @@ namespace Jellyfin.Plugin.DAILYExtender.Provider
             _logger.LogDebug("DELocal GetMetadata: {Path}", info.Path);
             var result = new MetadataResult<T>();
 
-            var infoFile = Path.ChangeExtension(info.Path, "info.json");
+            var dto = Utils.Parse(info.Path);
 
-            if (!File.Exists(infoFile))
+            if (dto == null || dto.Year == null)
             {
+                _logger.LogDebug("DELocal GetMetadata: {Path} - No DTO", info.Path);
                 return Task.FromResult(result);
             }
 
-            var jsonObj = Utils.ReadYTDLInfo(infoFile, directoryService.GetFile(info.Path), cancellationToken);
-            _logger.LogDebug("YTLocal GetMetadata Result: {JSON}", jsonObj.ToString());
-            result = this.GetMetadataImpl(jsonObj);
+            _logger.LogDebug("DELocal GetMetadata Result: {DTO}", dto.ToString());
+            result = this.GetMetadataImpl(dto);
 
             return Task.FromResult(result);
         }

@@ -12,9 +12,9 @@ namespace Jellyfin.Plugin.DAILYExtender.Provider
 
         public override string Name => Constants.PLUGIN_NAME;
 
-        internal override MetadataResult<Episode> GetMetadataImpl(DTO jsonObj)
+        internal override MetadataResult<Episode> GetMetadataImpl(DTO dto)
         {
-            return Utils.YTDLJsonToEpisode(jsonObj);
+            return Utils.DTOToEpisode(dto);
         }
     }
 }

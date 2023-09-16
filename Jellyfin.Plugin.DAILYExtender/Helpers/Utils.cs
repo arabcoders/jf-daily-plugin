@@ -3,8 +3,7 @@ using MediaBrowser.Controller.Providers;
 using MediaBrowser.Model.IO;
 using System;
 using System.IO;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
 using System.Threading;
 
 namespace Jellyfin.Plugin.DAILYExtender.Helpers
@@ -12,29 +11,55 @@ namespace Jellyfin.Plugin.DAILYExtender.Helpers
     public class Utils
     {
         /// <summary>
-        /// Reads JSON data from file.
+        /// Parse filename for metadata.
         /// </summary>
-        /// <param name="metaFile"></param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="fileName"></param>
         /// <returns></returns>
-        public static DTO ReadYTDLInfo(string fpath, FileSystemMetadata path, CancellationToken cancellationToken)
+        public static DTO Parse(string fileName)
         {
-            cancellationToken.ThrowIfCancellationRequested();
-            string jsonString = File.ReadAllText(fpath);
-            DTO data = JsonSerializer.Deserialize<DTO>(jsonString, new JsonSerializerOptions
+            var fn = Path.GetFileNameWithoutExtension(fileName);
+            var dto = new DTO { File = fileName };
+
+            foreach (var pattern in Constants.Patterns)
             {
-                NumberHandling = JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString
-            });
-            data.file_path = path;
-            return data;
+                var rx = new Regex(pattern, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+                if (rx.IsMatch(fn))
+                {
+                    return MakeDTO(dto, rx.Matches(fn));
+                }
+            }
+
+            return dto;
+        }
+
+        protected static DTO MakeDTO(DTO dto, MatchCollection match)
+        {
+            var year = match[0].Groups["year"].ToString();
+            if (year.Length == 2)
+            {
+                year = "20" + year;
+            }
+
+            dto.Year = year;
+            dto.Date = dto.Year + "-" + match[0].Groups["month"].ToString() + "-" + match[0].Groups["day"].ToString();
+            dto.Title = match[0].Groups["title"].ToString();
+            if (!string.IsNullOrEmpty(dto.Title))
+            {
+                dto.Title = Regex.Replace(dto.Title, @"\[.+\]", "").Trim();
+            }
+            dto.Season = dto.Year;
+            dto.Parsed = true;
+
+            return dto;
         }
 
         /// <summary>
         /// Provides a Episode Metadata Result from a json object.
         /// </summary>
-        /// <param name="json"></param>
+        /// <param name="dto"></param>
         /// <returns></returns>
-        public static MetadataResult<Episode> YTDLJsonToEpisode(DTO json)
+        public static MetadataResult<Episode> DTOToEpisode(DTO dto)
         {
             var item = new Episode();
             var result = new MetadataResult<Episode>
@@ -42,53 +67,19 @@ namespace Jellyfin.Plugin.DAILYExtender.Helpers
                 HasMetadata = true,
                 Item = item
             };
-            result.Item.Name = json.title;
-            result.Item.Overview = json.description;
+
+            result.Item.Name = dto.Title;
             var date = new DateTime(1970, 1, 1);
             try
             {
-                date = DateTime.ParseExact(json.upload_date, "yyyyMMdd", null);
+                date = DateTime.ParseExact(dto.Date, "yyyy-MM-dd", null);
             }
             catch { }
             result.Item.ProductionYear = date.Year;
             result.Item.PremiereDate = date;
             result.Item.ForcedSortName = date.ToString("yyyyMMdd") + "-" + result.Item.Name;
-            result.Item.IndexNumber = int.Parse("1" + date.ToString("MMdd"));
-            result.Item.ParentIndexNumber = int.Parse(date.ToString("yyyy"));
-            result.Item.ProviderIds.Add(Constants.PLUGIN_NAME, json.id);
+            result.Item.ParentIndexNumber = int.Parse(dto.Season);
 
-            // If the json data has epoch, do not bother calling file data.
-            if (json.epoch != null)
-            {
-                result.Item.IndexNumber = int.Parse("1" + date.ToString("MMdd") + DateTimeOffset.FromUnixTimeSeconds(json.epoch ?? new long()).ToString("hhmm"));
-                return result;
-            }
-
-            // if no json.epoch is found fallback to file last modification time.
-            if (json.file_path != null)
-            {
-                result.Item.IndexNumber = int.Parse("1" + date.ToString("MMdd") + json.file_path.LastWriteTimeUtc.ToString("hhmm"));
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// Provides a MusicVideo Metadata Result from a json object.
-        /// </summary>
-        /// <param name="json"></param>
-        /// <returns></returns>
-        public static MetadataResult<Series> YTDLJsonToSeries(DTO json)
-        {
-            var item = new Series();
-            var result = new MetadataResult<Series>
-            {
-                HasMetadata = true,
-                Item = item
-            };
-            result.Item.Name = json.uploader;
-            result.Item.Overview = json.description;
-            result.Item.ProviderIds.Add(Constants.PLUGIN_NAME, json.channel_id);
             return result;
         }
     }

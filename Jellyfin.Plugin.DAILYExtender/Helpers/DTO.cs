@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using MediaBrowser.Model.IO;
 
 namespace Jellyfin.Plugin.DAILYExtender.Helpers
 {
@@ -7,19 +8,13 @@ namespace Jellyfin.Plugin.DAILYExtender.Helpers
     /// </summary>
     public class DTO
     {
-        // direct object id be it either channel id or video id
-        public string id { get; set; }
-        public string uploader { get; set; }
-        public string upload_date { get; set; }
-        public string title { get; set; }
-        public string description { get; set; }
-        public string channel_id { get; set; }
-        public string track { get; set; }
-        public string artist { get; set; }
-        public string album { get; set; }
+        public bool Parsed { get; set; } = false;
+        public string Season { get; set; }
+        public string Series { get; set; }
+        public string Date { get; set; }
+        public string Year { get; set; }
+        public string Title { get; set; }
 #nullable enable
-        [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString)]
-        public long? epoch { get; set; }
-        public MediaBrowser.Model.IO.FileSystemMetadata? file_path { get; set; }
+        public string? File { get; set; }
     }
 }
