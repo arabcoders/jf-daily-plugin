@@ -43,6 +43,7 @@ namespace Jellyfin.Plugin.DAILYExtender.Helpers
 
             dto.Year = year;
             dto.Date = dto.Year + "-" + match[0].Groups["month"].ToString() + "-" + match[0].Groups["day"].ToString();
+            dto.Episode = "1" + match[0].Groups["month"].ToString() + match[0].Groups["day"].ToString();
             dto.Title = match[0].Groups["title"].ToString();
             if (!string.IsNullOrEmpty(dto.Title))
             {
@@ -79,6 +80,7 @@ namespace Jellyfin.Plugin.DAILYExtender.Helpers
             result.Item.PremiereDate = date;
             result.Item.ForcedSortName = date.ToString("yyyyMMdd") + "-" + result.Item.Name;
             result.Item.ParentIndexNumber = int.Parse(dto.Season);
+            result.Item.IndexNumber = int.Parse(dto.Episode);
 
             return result;
         }

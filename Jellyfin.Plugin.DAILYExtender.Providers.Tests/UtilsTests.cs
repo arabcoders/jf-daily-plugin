@@ -31,6 +31,7 @@ namespace Jellyfin.Plugin.DAILYExtender.Tests
                 Title = "this is a test title",
                 Year = "2023",
                 Season = "2023",
+                Episode = "10910",
                 File = fn
             };
 
