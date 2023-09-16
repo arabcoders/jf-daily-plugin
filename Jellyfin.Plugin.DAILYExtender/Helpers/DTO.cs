@@ -10,6 +10,7 @@ namespace Jellyfin.Plugin.DAILYExtender.Helpers
     {
         public bool Parsed { get; set; } = false;
         public string Season { get; set; }
+        public string Episode { get; set; }
         public string Series { get; set; }
         public string Date { get; set; }
         public string Year { get; set; }
