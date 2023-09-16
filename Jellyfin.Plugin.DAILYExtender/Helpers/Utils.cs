@@ -1,77 +1,27 @@
-﻿using MediaBrowser.Controller;
-using MediaBrowser.Controller.Entities;
-using MediaBrowser.Controller.Entities.Movies;
-using MediaBrowser.Controller.Entities.TV;
+﻿using MediaBrowser.Controller.Entities.TV;
 using MediaBrowser.Controller.Providers;
-using MediaBrowser.Model.Entities;
 using MediaBrowser.Model.IO;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Text.RegularExpressions;
 using System.Threading;
 
-namespace jellyfin.Plugin.DAILYExtender.Helpers
+namespace Jellyfin.Plugin.DAILYExtender.Helpers
 {
     public class Utils
     {
-        public static bool IsFresh(FileSystemMetadata fileInfo)
-        {
-            if (fileInfo.Exists && DateTime.UtcNow.Subtract(fileInfo.LastWriteTimeUtc).Days <= 10)
-            {
-                return true;
-            }
-            return false;
-        }
-
-        /// <summary>
-        ///  Returns the Youtube ID from the file path. Matches last 11 character field inside square brackets.
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        public static string GetYTID(string name)
-        {
-            var rxc = new Regex(Constants.CHANNEL_RX, RegexOptions.Compiled | RegexOptions.IgnoreCase);
-            if (rxc.IsMatch(name))
-            {
-                MatchCollection match = rxc.Matches(name);
-                return match[0].Groups["id"].ToString();
-            }
-
-            var rx = new Regex(Constants.VIDEO_RX, RegexOptions.Compiled | RegexOptions.IgnoreCase);
-            if (rx.IsMatch(name))
-            {
-                MatchCollection match = rx.Matches(name);
-                return match[0].Groups["id"].ToString();
-            }
-            return "";
-        }
-
-        /// <summary>
-        /// Returns path to where metadata json file should be.
-        /// </summary>
-        /// <param name="appPaths"></param>
-        /// <param name="youtubeID"></param>
-        /// <returns></returns>
-        public static string GetVideoInfoPath(IServerApplicationPaths appPaths, string youtubeID)
-        {
-            var dataPath = Path.Combine(appPaths.CachePath, Constants.PLUGIN_NAME, youtubeID);
-            return Path.Combine(dataPath, "ytvideo.info.json");
-        }
-
         /// <summary>
         /// Reads JSON data from file.
         /// </summary>
         /// <param name="metaFile"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public static YTDLData ReadYTDLInfo(string fpath, FileSystemMetadata path, CancellationToken cancellationToken)
+        public static DTO ReadYTDLInfo(string fpath, FileSystemMetadata path, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
             string jsonString = File.ReadAllText(fpath);
-            YTDLData data = JsonSerializer.Deserialize<YTDLData>(jsonString, new JsonSerializerOptions
+            DTO data = JsonSerializer.Deserialize<DTO>(jsonString, new JsonSerializerOptions
             {
                 NumberHandling = JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString
             });
@@ -84,7 +34,7 @@ namespace jellyfin.Plugin.DAILYExtender.Helpers
         /// </summary>
         /// <param name="json"></param>
         /// <returns></returns>
-        public static MetadataResult<Episode> YTDLJsonToEpisode(YTDLData json)
+        public static MetadataResult<Episode> YTDLJsonToEpisode(DTO json)
         {
             var item = new Episode();
             var result = new MetadataResult<Episode>
@@ -103,7 +53,6 @@ namespace jellyfin.Plugin.DAILYExtender.Helpers
             result.Item.ProductionYear = date.Year;
             result.Item.PremiereDate = date;
             result.Item.ForcedSortName = date.ToString("yyyyMMdd") + "-" + result.Item.Name;
-            result.AddPerson(Utils.CreatePerson(json.uploader, json.channel_id));
             result.Item.IndexNumber = int.Parse("1" + date.ToString("MMdd"));
             result.Item.ParentIndexNumber = int.Parse(date.ToString("yyyy"));
             result.Item.ProviderIds.Add(Constants.PLUGIN_NAME, json.id);
@@ -129,7 +78,7 @@ namespace jellyfin.Plugin.DAILYExtender.Helpers
         /// </summary>
         /// <param name="json"></param>
         /// <returns></returns>
-        public static MetadataResult<Series> YTDLJsonToSeries(YTDLData json)
+        public static MetadataResult<Series> YTDLJsonToSeries(DTO json)
         {
             var item = new Series();
             var result = new MetadataResult<Series>

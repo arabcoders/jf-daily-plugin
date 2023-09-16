@@ -9,11 +9,11 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using jellyfin.Plugin.DAILYExtender.Helpers;
+using Jellyfin.Plugin.DAILYExtender.Helpers;
 
-namespace jellyfin.Plugin.DAILYExtender.Provider
+namespace Jellyfin.Plugin.DAILYExtender.Provider
 {
-    public class LocalSeriesProvider : ILocalMetadataProvider<Series>, IHasItemChangeMonitor
+    public class LocalSeriesProvider : ILocalMetadataProvider<Series>
     {
         public string Name => Constants.PLUGIN_NAME;
         protected readonly ILogger<LocalSeriesProvider> _logger;
@@ -67,21 +67,6 @@ namespace jellyfin.Plugin.DAILYExtender.Provider
             var specificFile = Path.Combine(directoryPath, Path.GetFileNameWithoutExtension(path) + ".info.json");
             var file = _fileSystem.GetFileInfo(specificFile);
             return file;
-        }
-
-        public bool HasChanged(BaseItem item, IDirectoryService directoryService)
-        {
-            _logger.LogDebug("YTLocalSeries HasChanged: {Path}", item.Path);
-            var infoPath = GetSeriesInfo(item.Path);
-            var result = false;
-            if (!String.IsNullOrEmpty(infoPath))
-            {
-                var infoJson = GetInfoJson(infoPath);
-                result = infoJson.Exists && _fileSystem.GetLastWriteTimeUtc(infoJson) < item.DateLastSaved;
-            }
-            _logger.LogDebug("YTLocalSeries HasChanged Result: {Result}", result);
-            return result;
-
         }
     }
 }

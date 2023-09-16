@@ -1424,7 +1424,7 @@
           "xunit.extensibility.core": "[2.4.1]"
         }
       },
-      "jellyfin.Plugin.DAILYExtender": {
+      "Jellyfin.Plugin.DAILYExtender": {
         "type": "Project",
         "dependencies": {
           "Jellyfin.Controller": "[10.8.0-beta2, )",

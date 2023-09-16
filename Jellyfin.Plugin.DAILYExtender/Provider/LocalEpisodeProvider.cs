@@ -2,9 +2,9 @@
 using MediaBrowser.Model.IO;
 using Microsoft.Extensions.Logging;
 using MediaBrowser.Controller.Entities.TV;
-using jellyfin.Plugin.DAILYExtender.Helpers;
+using Jellyfin.Plugin.DAILYExtender.Helpers;
 
-namespace jellyfin.Plugin.DAILYExtender.Provider
+namespace Jellyfin.Plugin.DAILYExtender.Provider
 {
     public class LocalEpisodeProvider : AbstractLocalProvider<LocalEpisodeProvider, Episode>
     {
@@ -12,7 +12,7 @@ namespace jellyfin.Plugin.DAILYExtender.Provider
 
         public override string Name => Constants.PLUGIN_NAME;
 
-        internal override MetadataResult<Episode> GetMetadataImpl(YTDLData jsonObj)
+        internal override MetadataResult<Episode> GetMetadataImpl(DTO jsonObj)
         {
             return Utils.YTDLJsonToEpisode(jsonObj);
         }

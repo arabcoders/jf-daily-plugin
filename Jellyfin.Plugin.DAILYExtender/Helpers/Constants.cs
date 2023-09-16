@@ -1,4 +1,4 @@
-﻿namespace jellyfin.Plugin.DAILYExtender.Helpers
+﻿namespace Jellyfin.Plugin.DAILYExtender.Helpers
 {
     public class Constants
     {

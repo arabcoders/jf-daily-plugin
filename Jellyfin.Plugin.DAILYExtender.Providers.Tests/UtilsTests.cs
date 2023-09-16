@@ -1,16 +1,10 @@
 ﻿using Xunit;
-using MediaBrowser.Controller.Entities;
-using MediaBrowser.Model.Entities;
-using MediaBrowser.Controller;
-using Moq;
-using System.Collections.Generic;
 using System;
-using System.IO;
-using jellyfin.Plugin.DAILYExtender.Helpers;
 using System.Text.RegularExpressions;
 using System.Text.Json;
+using Jellyfin.Plugin.DAILYExtender.Helpers;
 
-namespace jellyfin.Plugin.DAILYExtender.Tests
+namespace Jellyfin.Plugin.DAILYExtender.Tests
 {
     public class UtilsTest
     {
@@ -51,60 +45,6 @@ namespace jellyfin.Plugin.DAILYExtender.Tests
         }
 
         [Fact]
-        public void CreatePersonTest()
-        {
-            var result = Utils.CreatePerson("Rick Astley", "UCuAXFkgsw1L7xaCfnd5JJOw");
-            var expected = new PersonInfo
-            {
-                Name = "Rick Astley",
-                Type = PersonType.Director,
-                ProviderIds = new Dictionary<string, string> { { Constants.PLUGIN_NAME, "UCuAXFkgsw1L7xaCfnd5JJOw" } }
-            };
-
-            Assert.Equal(JsonSerializer.Serialize(expected), JsonSerializer.Serialize(result));
-        }
-
-        [Fact]
-        public void GetVideoInfoPathTest()
-        {
-            var mockAppPath = Mock.Of<IServerApplicationPaths>(a =>
-                a.CachePath == Path.Combine("foo", "bar").ToString()
-            );
-
-            var result = Utils.GetVideoInfoPath(mockAppPath, "id123");
-            Assert.Equal(Path.Combine("foo", "bar", Constants.PLUGIN_NAME, "id123", "ytvideo.info.json").ToString(), result);
-        }
-
-        [Fact]
-        public void YTDLJsonToMovieTest()
-        {
-            var result = Utils.YTDLJsonToMovie(GetYouTubeVideoData());
-
-            Assert.True(result.HasMetadata);
-            Assert.Equal("Never Gonna Give You Up", result.Item.Name);
-            Assert.Equal("The official video for “Never Gonna Give You Up” by Rick Astley", result.Item.Overview);
-            Assert.Equal(2009, result.Item.ProductionYear);
-            Assert.Equal("20091025", (result.Item.PremiereDate ?? DateTime.Now).ToString("yyyyMMdd"));
-            Assert.Equal("Rick Astley", result.People[0].Name);
-            Assert.Equal("UCuAXFkgsw1L7xaCfnd5JJOw", result.People[0].ProviderIds[Constants.PLUGIN_NAME]);
-            Assert.Equal("dQw4w9WgXcQ", result.Item.ProviderIds[Constants.PLUGIN_NAME]);
-        }
-
-        [Fact]
-        public void YTDLJsonToMusicTest()
-        {
-            var result = Utils.YTDLJsonToMusicVideo(GetYouTubeVideoData());
-            Assert.True(result.HasMetadata);
-            Assert.Equal("Music", result.Item.Name);
-            Assert.Equal("The official video for “Never Gonna Give You Up” by Rick Astley", result.Item.Overview);
-            Assert.Equal(2009, result.Item.ProductionYear);
-            Assert.Equal("20091025", (result.Item.PremiereDate ?? DateTime.Now).ToString("yyyyMMdd"));
-            Assert.Equal("Rick Astley", result.People[0].Name);
-            Assert.Equal("UCuAXFkgsw1L7xaCfnd5JJOw", result.People[0].ProviderIds[Constants.PLUGIN_NAME]);
-            Assert.Equal("dQw4w9WgXcQ", result.Item.ProviderIds[Constants.PLUGIN_NAME]);
-        }
-
-        [Fact]
         public void YTDLJsonToEpisodeTest()
         {
             var result = Utils.YTDLJsonToEpisode(GetYouTubeVideoData());
@@ -132,16 +72,16 @@ namespace jellyfin.Plugin.DAILYExtender.Tests
             Assert.Equal("UCuAXFkgsw1L7xaCfnd5JJOw", result.Item.ProviderIds[Constants.PLUGIN_NAME]);
         }
 
-        public static YTDLData GetYouTubeVideoData()
+        public static DTO GetYouTubeVideoData()
         {
             string jsonString = "{\"id\":\"dQw4w9WgXcQ\",\"uploader\":\"Rick Astley\",\"upload_date\":\"20091025\",\"title\":\"Never Gonna Give You Up\",\"description\":\"The official video for “Never Gonna Give You Up” by Rick Astley\",\"channel_id\":\"UCuAXFkgsw1L7xaCfnd5JJOw\",\"track\":\"Music\",\"artist\":\"Rick Astley\",\"album\":null,\"epoch\":1673637911,\"file_path\":null,\"thumbnails\":null}";
-            return System.Text.Json.JsonSerializer.Deserialize<YTDLData>(jsonString) ?? new YTDLData();
+            return JsonSerializer.Deserialize<DTO>(jsonString) ?? new DTO();
         }
 
-        public static YTDLData GetYouTubeChannelData()
+        public static DTO GetYouTubeChannelData()
         {
             string jsonString = "{\"id\":\"UCuAXFkgsw1L7xaCfnd5JJOw\",\"uploader\":\"Rick Astley\",\"upload_date\":null,\"title\":\"Rick Astley\",\"description\":\"Official YouTube channel for Rick Astley.\",\"channel_id\":\"UCuAXFkgsw1L7xaCfnd5JJOw\",\"track\":null,\"artist\":null,\"album\":null,\"epoch\":1673637911,\"file_path\":null,\"thumbnails\":null}";
-            return System.Text.Json.JsonSerializer.Deserialize<YTDLData>(jsonString) ?? new YTDLData();
+            return JsonSerializer.Deserialize<DTO>(jsonString) ?? new DTO();
         }
     }
 }

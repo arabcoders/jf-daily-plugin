@@ -5,11 +5,11 @@ using Microsoft.Extensions.Logging;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using jellyfin.Plugin.DAILYExtender.Helpers;
+using Jellyfin.Plugin.DAILYExtender.Helpers;
 
-namespace jellyfin.Plugin.DAILYExtender.Provider
+namespace Jellyfin.Plugin.DAILYExtender.Provider
 {
-    public class LocalSeasonProvider : ILocalMetadataProvider<Season>, IHasItemChangeMonitor
+    public class LocalSeasonProvider : ILocalMetadataProvider<Season>
     {
         protected readonly ILogger<LocalSeasonProvider> _logger;
         public string Name => Constants.PLUGIN_NAME;
@@ -26,10 +26,6 @@ namespace jellyfin.Plugin.DAILYExtender.Provider
             result.Item = item;
             result.HasMetadata = true;
             return Task.FromResult(result);
-        }
-        public bool HasChanged(BaseItem item, IDirectoryService directoryService)
-        {
-            return true;
         }
     }
 }

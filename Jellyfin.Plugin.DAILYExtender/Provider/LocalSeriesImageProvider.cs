@@ -7,9 +7,9 @@ using MediaBrowser.Controller.Entities.TV;
 using Microsoft.Extensions.FileSystemGlobbing;
 using System;
 using System.Text.RegularExpressions;
-using jellyfin.Plugin.DAILYExtender.Helpers;
+using Jellyfin.Plugin.DAILYExtender.Helpers;
 
-namespace jellyfin.Plugin.DAILYExtender.Provider
+namespace Jellyfin.Plugin.DAILYExtender.Provider
 {
     public class LocalSeriesImageProvider : ILocalImageProvider
     {

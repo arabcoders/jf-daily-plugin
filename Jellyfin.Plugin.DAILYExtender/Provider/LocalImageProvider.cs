@@ -8,13 +8,12 @@ using System.Text.RegularExpressions;
 using Microsoft.Extensions.FileSystemGlobbing;
 using System;
 using MediaBrowser.Controller.Entities.TV;
-using jellyfin.Plugin.DAILYExtender.Helpers;
+using Jellyfin.Plugin.DAILYExtender.Helpers;
 
-namespace jellyfin.Plugin.DAILYExtender.Provider
+namespace Jellyfin.Plugin.DAILYExtender.Provider
 {
     public class LocalImageProvider : ILocalImageProvider, IHasOrder
     {
-
         public string Name => Constants.PLUGIN_NAME;
         public int Order => 1;
         private readonly IFileSystem _fileSystem;

@@ -8,6 +8,6 @@ overview: "Parse more date format for daily shows."
 description: "This plugin add support for more date format for daily shows."
 category: "Metadata"
 artifacts:
-  - "jellyfin.Plugin.DAILYExtender.dll"
+  - "Jellyfin.Plugin.DAILYExtender.dll"
 changelog: >
   changelog

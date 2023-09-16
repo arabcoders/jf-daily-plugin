@@ -26,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\jellyfin.Plugin.DAILYExtender\jellyfin.Plugin.DAILYExtender.csproj" />
+    <ProjectReference Include="..\Jellyfin.Plugin.DAILYExtender\Jellyfin.Plugin.DAILYExtender.csproj" />
   </ItemGroup>
 
 </Project>

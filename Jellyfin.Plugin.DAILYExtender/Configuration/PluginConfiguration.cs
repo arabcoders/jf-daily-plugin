@@ -1,12 +1,11 @@
 using MediaBrowser.Model.Plugins;
-using System;
 
 public enum SomeOptions
 {
     CustomDateParser = 1,
 }
 
-namespace jellyfin.Plugin.DAILYExtender.Configuration
+namespace Jellyfin.Plugin.DAILYExtender.Configuration
 {
     public class PluginConfiguration : BasePluginConfiguration
     {
