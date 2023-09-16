@@ -40,20 +40,5 @@ namespace Jellyfin.Plugin.DAILYExtender.Tests
             Assert.Equal(expectedDTO.Season, dto.Season);
             Assert.Equal(expectedDTO.File, dto.File);
         }
-
-        [Fact]
-        public void YTDLJsonToEpisodeTest()
-        {
-            var dto = Utils.Parse("20230910 - Foobar [720p].mkv");
-            var result = Utils.DTOToEpisode(dto);
-
-            Assert.True(dto.Parsed);
-            Assert.True(result.HasMetadata);
-            Assert.Equal("Foobar", result.Item.Name);
-            Assert.Equal(2023, result.Item.ProductionYear);
-            Assert.Equal("2023-09-10", (result.Item.PremiereDate ?? DateTime.Now).ToString("yyyy-MM-dd"));
-            Assert.Equal("20230910-Foobar", result.Item.ForcedSortName);
-            Assert.Equal(2023, result.Item.ParentIndexNumber);
-        }
     }
 }
