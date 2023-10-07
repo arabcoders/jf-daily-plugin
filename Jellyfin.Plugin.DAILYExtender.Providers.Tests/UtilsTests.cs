@@ -9,12 +9,25 @@ namespace Jellyfin.Plugin.DAILYExtender.Tests
     {
         [Theory]
         [InlineData("Foo", false)]
-        [InlineData("20230910 - this is a test title [720p].mkv", true)]
         [InlineData("230910 - this is a test title [720p].mkv", true)]
+        [InlineData("20230910 - this is a test title [720p].mkv", true)]
         [InlineData("2023-09-10 - this is a test title [720p].mkv", true)]
-        [InlineData("Series Title - 2023-09-10 - this is a test title [720p [720p].mkv", true)]
+        [InlineData("2023_09_10 - this is a test title [720p].mkv", true)]
+        [InlineData("2023.09.10 - this is a test title [720p].mkv", true)]
+
+        // Date at the middle of file name.
         [InlineData("Series Title - 230910 - this is a test title [720p [720p].mkv", true)]
+        [InlineData("Series Title - 2023-09-10 - this is a test title [720p [720p].mkv", true)]
+        [InlineData("Series Title - 2023_09_10 - this is a test title [720p [720p].mkv", true)]
+        [InlineData("Series Title - 2023.09.10 - this is a test title [720p [720p].mkv", true)]
+        [InlineData("Series Title - 20230910 - this is a test title [720p [720p].mkv", true)]
+
+        // Date at the end of file name.
         [InlineData("this is a test title 230910.mkv", true)]
+        [InlineData("this is a test title 20230910.mkv", true)]
+        [InlineData("this is a test title 2023-09-10.mkv", true)]
+        [InlineData("this is a test title 2023_09_10.mkv", true)]
+        [InlineData("this is a test title 2023.09.10.mkv", true)]
         public void ParseFilesCorrectly(string fn, bool expected)
         {
             var dto = Utils.Parse(fn);
