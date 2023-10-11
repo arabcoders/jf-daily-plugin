@@ -13,6 +13,12 @@ So the filename itself can contain any of the previous date formats. However, th
 * Series Title - `{date}` - title [720p].mkv
 * Title `{date}`.mkv
 
+## Special Format
+This format is specially added to support a better looking title.
+* `{date}` Series title -? `(#0|ep0|DVD1|DVD1.1)` -? title [720p].mkv
+
+The generated title will be `(#0|ep0|DVD1|DVD1.1) - title`.
+
 ## Installing the plugin.
 
 Go to the Releases page and download the latest release.
