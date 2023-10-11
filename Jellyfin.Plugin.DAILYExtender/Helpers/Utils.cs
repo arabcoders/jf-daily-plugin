@@ -35,6 +35,8 @@ namespace Jellyfin.Plugin.DAILYExtender.Helpers
 
         protected static DTO MakeDTO(DTO dto, MatchCollection match)
         {
+            var titlePrefix = "";
+
             var year = match[0].Groups["year"].ToString();
             if (year.Length == 2)
             {
@@ -47,8 +49,33 @@ namespace Jellyfin.Plugin.DAILYExtender.Helpers
             dto.Title = match[0].Groups["title"].ToString();
             if (!string.IsNullOrEmpty(dto.Title))
             {
+                var epNumber = match[0].Groups["epNumber"].ToString();
+                var episode = match[0].Groups["episode"].ToString();
+
+                if (!string.IsNullOrEmpty(epNumber))
+                {
+                    titlePrefix = epNumber + " - ";
+                }
+                if (string.IsNullOrEmpty(titlePrefix) && !string.IsNullOrEmpty(episode))
+                {
+                    titlePrefix = episode + " - ";
+                }
+
+                if (!string.IsNullOrEmpty(titlePrefix))
+                {
+                    dto.Title = dto.Title.Trim();
+                    dto.Title = titlePrefix + dto.Title;
+                }
+
                 dto.Title = Regex.Replace(dto.Title, @"\[.+\]", "").Trim();
+                dto.Title = dto.Title.Trim();
             }
+
+            if (string.IsNullOrEmpty(dto.Title))
+            {
+                dto.Title = dto.Date;
+            }
+
             dto.Season = dto.Year;
             dto.Parsed = true;
 
