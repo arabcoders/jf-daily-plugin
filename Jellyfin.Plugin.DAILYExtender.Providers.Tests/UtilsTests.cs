@@ -60,8 +60,10 @@ namespace Jellyfin.Plugin.DAILYExtender.Tests
         [Theory]
         [InlineData("230910 SeriesTitle ep01 - this is a test title.mkv", true)]
         [InlineData("20230910 SeriesTitle DVD1 - this is a test title.mkv", true)]
+        [InlineData("20230910 SeriesTitle SP1 - this is a test title.mkv", true)]
         [InlineData("20230910 SeriesTitle #01 - this is a test title.mkv", true)]
         [InlineData("2023-09-10 SeriesTitle DVD1.1 - this is a test title.mkv", true)]
+        [InlineData("2023-09-10 SeriesTitle SP1.1 - this is a test title.mkv", true)]
         public void ParseFilesCorrectlySpecialCase(string fn, bool expected)
         {
             var dto = Utils.Parse(fn);
@@ -71,7 +73,7 @@ namespace Jellyfin.Plugin.DAILYExtender.Tests
                 return;
             }
 
-            var rx = new Regex(@"(?<episode>\#(\d+)|ep(\d+)|DVD[0-9.-]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            var rx = new Regex(@"(?<episode>\#(\d+)|ep(\d+)|DVD[0-9.-]+|SP[0-9.-]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
             var epNumber = rx.Matches(fn)[0].Groups["episode"].ToString();
 
             var expectedDTO = new DTO

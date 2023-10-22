@@ -1,7 +1,7 @@
 ---
 name: "Extends Jellyfin daily shows date format"
 guid: "be32c1b1-426a-467a-ae34-9182e1736f54"
-version: "1.0.0.5"
+version: "1.0.0.6"
 targetAbi: "10.7.0.0"
 owner: "arabcoders"
 overview: "Parse more date format for daily shows."
