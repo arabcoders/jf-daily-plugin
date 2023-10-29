@@ -33,8 +33,16 @@ namespace Jellyfin.Plugin.DAILYExtender.Provider
         /// <returns></returns>
         public Task<MetadataResult<T>> GetMetadata(ItemInfo info, IDirectoryService directoryService, CancellationToken cancellationToken)
         {
-            _logger.LogDebug("DELocal GetMetadata: {Path}", info.Path);
             var result = new MetadataResult<T>();
+
+            // ignore youtube content due to it's overriding yt-info reader provider.
+            if (Utils.IsYouTubeContent(info.Path))
+            {
+                _logger.LogDebug("GetMetadata: Ignoring Path {Path}", info.Path);
+                return Task.FromResult(result);
+            }
+
+            _logger.LogDebug("DELocal GetMetadata: {Path}", info.Path);
 
             var dto = Utils.Parse(info.Path);
 
