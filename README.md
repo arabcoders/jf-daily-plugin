@@ -35,7 +35,7 @@ And Only enable `Image fetchers (Episodes):` - `Screen grabber (FFmpeg)`. if you
 1. Ensure you have .NET Core SDK setup and installed.
 1. Build plugin with following command.
     ```
-    dotnet publish --configuration Release --output bin
+    dotnet publish Jellyfin.Plugin.DAILYExtender --configuration Release --no-restore --output bin
     ```
 1. Create folder named `DAILYExtender` in the `plugins` directory inside your Jellyfin data
    directory. You can find your directory by going to Dashboard, and noticing the Paths section.
