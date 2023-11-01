@@ -17,7 +17,6 @@ namespace Jellyfin.Plugin.DAILYExtender.Tests
         [InlineData("2023.09.10 - this is a test title [720p].mkv", true)]
 
         // Date at the middle of file name.
-        [InlineData("Series Title - 230910 - this is a test title [720p [720p].mkv", true)]
         [InlineData("Series Title - 2023-09-10 - this is a test title [720p [720p].mkv", true)]
         [InlineData("Series Title - 2023_09_10 - this is a test title [720p [720p].mkv", true)]
         [InlineData("Series Title - 2023.09.10 - this is a test title [720p [720p].mkv", true)]

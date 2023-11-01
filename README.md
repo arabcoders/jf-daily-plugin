@@ -13,6 +13,9 @@ So the filename itself can contain any of the previous date formats. However, th
 * Series Title - `{date}` - title [720p].mkv
 * Title `{date}`.mkv
 
+`Note:` For the 2nd format `Series title - {date} - title [720p].mkv` the year has to be 4 digit it's due to misidentifying files that has titles with 6 digit numbers in them.
+
+
 ## Special Format
 This format is specially added to support a better looking title.
 * `{date}` Series title -? `(#0|ep0|DVD1|DVD1.1|SP1|SP1.1)` -? title [720p].mkv
