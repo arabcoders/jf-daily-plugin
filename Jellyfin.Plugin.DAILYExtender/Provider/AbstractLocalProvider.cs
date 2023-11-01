@@ -42,18 +42,25 @@ namespace Jellyfin.Plugin.DAILYExtender.Provider
                 return Task.FromResult(result);
             }
 
-            _logger.LogDebug("DELocal GetMetadata: {Path}", info.Path);
+            // ignore non daily content.
+            if (!Utils.IsDailyContent(info.Path))
+            {
+                _logger.LogDebug("ALP GetMetadata: Ignoring Non daily content {Path}", info.Path);
+                return Task.FromResult(result);
+            }
+
+            _logger.LogDebug("ALP GetMetadata: {Path}", info.Path);
 
             var dto = Utils.Parse(info.Path);
 
             if (dto == null || dto.Year == null)
             {
-                _logger.LogDebug("DELocal GetMetadata: {Path} - No DTO", info.Path);
+                _logger.LogDebug("ALP GetMetadata: {Path} - No DTO", info.Path);
                 return Task.FromResult(result);
             }
 
-            _logger.LogDebug("DELocal GetMetadata Result: {DTO}", dto.ToString());
-            result = this.GetMetadataImpl(dto);
+            _logger.LogDebug("ALP GetMetadata Result: {DTO}", dto.ToString());
+            result = GetMetadataImpl(dto);
 
             return Task.FromResult(result);
         }

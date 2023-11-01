@@ -15,7 +15,7 @@ namespace Jellyfin.Plugin.DAILYExtender.Helpers
             // title YY?YY(-_.)?MM(-_.)?DD
             @"(?<title>.+?)(?<year>\d{2,4})(\-|\.|_)?(?<month>\d{2})(\-|\.|_)?(?<day>\d{2})$",
             // series YYYY(-_.)?MM(-_.)?DD -? title
-            @"(?<series>.+?)(?<year>\d{2,4})(\-|\.|_)?(?<month>\d{2})(\-|\.|_)?(?<day>\d{2})\s?-?(?<title>.+)?",
+            @"(?<series>.+?)(?<year>\d{4})(\-|\.|_)?(?<month>\d{2})(\-|\.|_)?(?<day>\d{2})\s?-?(?<title>.+)?",
         };
     }
 }
