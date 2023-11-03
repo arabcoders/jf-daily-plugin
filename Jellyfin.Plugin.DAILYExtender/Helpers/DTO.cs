@@ -1,5 +1,4 @@
-using System.Text.Json.Serialization;
-using MediaBrowser.Model.IO;
+using System.Text.Json;
 
 namespace Jellyfin.Plugin.DAILYExtender.Helpers
 {
@@ -17,5 +16,10 @@ namespace Jellyfin.Plugin.DAILYExtender.Helpers
         public string Title { get; set; }
 #nullable enable
         public string? File { get; set; }
+
+        public override string ToString()
+        {
+            return JsonSerializer.Serialize(this);
+        }
     }
 }
