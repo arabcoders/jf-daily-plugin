@@ -118,3 +118,4 @@ MediaBrowser.Plugins.Anime.userprefs
 
 # test branch
 .dotenv/
+custom-deploy.sh
