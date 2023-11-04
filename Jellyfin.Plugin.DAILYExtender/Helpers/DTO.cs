@@ -16,7 +16,7 @@ namespace Jellyfin.Plugin.DAILYExtender.Helpers
         public string Title { get; set; }
 #nullable enable
         public string? File { get; set; }
-
+#nullable disable
         public override string ToString()
         {
             return JsonSerializer.Serialize(this);
