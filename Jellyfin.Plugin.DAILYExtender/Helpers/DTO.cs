@@ -1,4 +1,5 @@
 using System.Text.Json;
+using MediaBrowser.Model.IO;
 
 namespace Jellyfin.Plugin.DAILYExtender.Helpers
 {
@@ -16,6 +17,7 @@ namespace Jellyfin.Plugin.DAILYExtender.Helpers
         public string Title { get; set; }
 #nullable enable
         public string? File { get; set; }
+        public FileSystemMetadata? File_path { get; set; }
 #nullable disable
         public override string ToString()
         {

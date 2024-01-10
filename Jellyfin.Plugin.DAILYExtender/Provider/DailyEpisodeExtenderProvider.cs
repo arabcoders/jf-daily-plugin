@@ -16,10 +16,12 @@ namespace Jellyfin.Plugin.DAILYExtender.Provider
     public class DailyEpisodeExtenderProvider : IRemoteMetadataProvider<Episode, EpisodeInfo>, IHasItemChangeMonitor
     {
         protected readonly ILogger<DailyEpisodeExtenderProvider> _logger;
+        private readonly IDirectoryService _directoryService;
 
-        public DailyEpisodeExtenderProvider(ILogger<DailyEpisodeExtenderProvider> logger)
+        public DailyEpisodeExtenderProvider(ILogger<DailyEpisodeExtenderProvider> logger, IDirectoryService directoryService)
         {
             _logger = logger;
+            _directoryService = directoryService;
         }
 
         public string Name => Constants.PLUGIN_NAME;
@@ -58,6 +60,8 @@ namespace Jellyfin.Plugin.DAILYExtender.Provider
                 _logger.LogDebug($"DEP GetMetadata: {info.Path} - No DTO");
                 return result;
             }
+
+            dto.File_path = _directoryService.GetFile(info.Path);
 
             _logger.LogDebug($"DEP GetMetadata Result: {dto}");
 
