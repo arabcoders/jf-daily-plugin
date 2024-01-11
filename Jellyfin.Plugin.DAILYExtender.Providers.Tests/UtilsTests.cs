@@ -1,6 +1,4 @@
 ﻿using Xunit;
-using System;
-using System.Text.Json;
 using Jellyfin.Plugin.DAILYExtender.Helpers;
 using System.Text.RegularExpressions;
 
@@ -92,8 +90,5 @@ namespace Jellyfin.Plugin.DAILYExtender.Tests
             Assert.Equal(expectedDTO.Season, dto.Season);
             Assert.Equal(expectedDTO.File, dto.File);
         }
-
-
-
     }
 }
