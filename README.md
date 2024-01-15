@@ -1,7 +1,9 @@
 # Jellyfin Extended Datetime parser for Daily Episodes.
 
 This plugin support the standard Japanese media date format for daily shows episodes. This plugin only concerns itself with episodes,
-If you want metadata for the series itself or the season you should use `NFO` files.
+If you want real metadata for the series itself or the season you should use `NFO` files.
+
+For Emby version of the plugin please visit [emby-daily-plugin](https://github.com/arabcoders/emby-daily-plugin) page.
 
 ## Expected filename formats.
 
@@ -22,7 +24,7 @@ This format is specially added to support a better looking title.
 
 The generated title will be `(#0|ep0|DVD1|DVD1.1|SP1|SP1.1) - title`.
 
-## Installing the plugin.
+# Installation
 
 Go to the Releases page and download the latest release.
 
@@ -32,7 +34,7 @@ Unzip the downloaded file and place the resulting files in the `plugins/DAILYExt
 Go to your Japanese library Make sure `DAILYExtender` is on the top of your `Metadata readers` list. Disable all external metadata sources.
 And Only enable `Image fetchers (Episodes):` - `Screen grabber (FFmpeg)`. if you don't have a local image for the episode, it will be fetched from the video file itself.
 
-## Build and Installing from source
+## Building from source
 
 1. Clone or download this repository.
 1. Ensure you have .NET Core SDK setup and installed.
@@ -54,4 +56,4 @@ And Only enable `Image fetchers (Episodes):` - `Screen grabber (FFmpeg)`. if you
     ```
     # chown -R jellyfin:jellyfin /var/lib/jellyfin/plugins/DAILYExtender/
     ```
-1. If performed correctly you will see a plugin named DAILYExtender in `Admin -> Dashboard -> Advanced -> Plugins`.
+If performed correctly you will see a plugin named DAILYExtender in `Admin -> Dashboard -> Advanced -> Plugins`.
